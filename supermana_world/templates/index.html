@@ -1,0 +1,129 @@
+<!-- todo -->
+<!-- first day of month offset -->
+<!-- move cities up and down -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html>
+<body>
+<title>Peach Travel </title>
+<link rel="shortcut icon" type="image/png" href="/static/img/sun.png">
+<link rel="stylesheet" href="/static/css/index.css?nocache={{ now  }}" />
+  
+<div id="header">
+    Login
+</div>
+
+<div id="container">
+    <div class="calendar"></div>
+    <div id="menu">
+        <div id="hello">
+          {% if session %}
+              <h2>Welcome {{user}}!</h2>
+              <p><a href="/logout">Logout</a></p>
+              You have <span id="numSavedTrips"> 0 </span> saved trips. 
+                <button id="loadTrips"> View Trips</button>
+            <br>
+            <br>
+          {% else %}
+            <h1>Welcome Guest</h1>
+            <p><a href="/login">Login</a></p>
+          {% endif %}
+            <div id="savedTrips">
+                <div id="closeTrips">X</div>
+                <div class="header"><h2>{{user}}'s Trips </h2></div>
+                <ul id="savedTripsList"></ul>
+            </div>
+        </div>
+        <div id="currentTrip">
+            <label for="tripName">Trip Name:</label>
+            <input id="tripName" type="text" value="My Trip" />
+            <br />
+            <br />
+
+            <label for="dateofbirth">Start Date:</label>
+            <input type="date" name="startDate" id="startDate">
+
+            <br />
+            <br />
+            <button id="addCity" value="Add city"> Add City </button>
+            <button id="save"> Save </button> <span id="saveResult"></span>
+            
+            <table>
+              <thead>
+                <tr>
+                  <th>City</th>
+                  <th>Days</th>
+                </tr>
+              </thead>
+              <tbody id="cities">
+                <tr>
+                </tr>
+
+              </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+<script> const csrf = "{{ csrf }}" </script>
+<script src="/static/js/jquery-min.js"></script>
+<link rel='stylesheet' src="/static/css/date.css?nocache={{ now }}"></link>
+<script src="/static/js/main.js?nocache={{ now }}"></script>
+
+<!-- facebook auth -->
+<script>
+  function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
+    console.log('statusChangeCallback');
+    console.log(response);                   // The current login status of the person.
+    if (response.status === 'connected') {   // Logged into your webpage and Facebook.
+      testAPI();  
+    } else {                                 // Not logged into your webpage or we are unable to tell.
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into this webpage.';
+    }
+  }
+
+
+  function checkLoginState() {               // Called when a person is finished with the Login Button.
+    FB.getLoginStatus(function(response) {   // See the onlogin handler
+      statusChangeCallback(response);
+    });
+  }
+
+
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '763421888801162',
+      cookie     : true,                     // Enable cookies to allow the server to access the session.
+      xfbml      : true,                     // Parse social plugins on this webpage.
+      version    : 'v17.0'           // Use this Graph API version for this call.
+    });
+
+
+    FB.getLoginStatus(function(response) {   // Called after the JS SDK has been initialized.
+      statusChangeCallback(response);        // Returns the login status.
+    });
+  };
+ 
+  function testAPI() {                      // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me', function(response) {
+      console.log('Successful login for: ' + response.name);
+      document.getElementById('status').innerHTML =
+        'Thanks for logging in, ' + response.name + '!';
+    });
+  }
+
+  </script>
+
+<div id="status">
+</div>
+
+<!-- Load the JS SDK asynchronously -->
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+
+
+hi2
+
+</body>
+</html>
+
